@@ -1,0 +1,34 @@
+/* 0. Typography */
+html { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { margin: 0; line-height: 1.6; color: #111; background: #fff; }
+
+/* 1. Layout */
+header, footer { max-width: 740px; margin: 3rem auto 2rem; padding: 0 1rem; }
+main          { max-width: 740px; margin: 0 auto 4rem; padding: 0 1rem; }
+
+/* 2. Header */
+header h1   { margin: 0 0 .5rem; font-size: 1.75rem; font-weight: 600; }
+nav a       { margin-right: 1.25rem; text-decoration: none; color: #555; }
+nav a:hover { color: #000; }
+
+/* 3. Links & emphasis */
+a          { color: #0366d6; }
+a:hover    { text-decoration: underline; }
+strong     { font-weight: 600; }
+
+/* 4. Lists */
+ul { list-style: none; padding-left: 0; }
+li { margin-bottom: .75rem; }
+
+/* 5. Footnote */
+footer { font-size: .875rem; color: #666; text-align: center; }
+
+/* 6. Dark-mode tweak */
+@media (prefers-color-scheme: dark) {
+  body        { color: #ddd; background: #111; }
+  nav a       { color: #aaa; }
+  nav a:hover { color: #fff; }
+  a           { color: #58a6ff; }
+  footer      { color: #888; }
+}
+
