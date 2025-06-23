@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Post</title>
-  <link rel="icon" href="/assets/Albanian_Eagle.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="icon" href="assets/Albanian_Eagle.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 </head>
 <body>
@@ -22,13 +22,13 @@
   <footer>
     © 2025 William Zhang
   </footer>
-  <script src="/js/main.js"></script>
+  <script src="js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const postName = urlParams.get('name');
       if (postName) {
-        fetch(`/_essays/${postName}.md`)
+        fetch(`_essays/${postName}.md`)
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');

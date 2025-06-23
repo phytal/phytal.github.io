@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Essays - William Zhang</title>
-  <link rel="icon" href="/assets/Albanian_Eagle.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="icon" href="assets/Albanian_Eagle.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
   <header>
@@ -24,12 +24,12 @@
   <footer>
     © 2025 William Zhang
   </footer>
-  <script src="/js/main.js"></script>
+  <script src="js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const essaysList = document.getElementById('essays-list');
 
-      fetch('/_essays/manifest.json')
+      fetch('_essays/manifest.json')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -38,7 +38,7 @@
         })
         .then(manifest => {
           const fetchPromises = manifest.map(essayName =>
-            fetch(`/_essays/${essayName}.md`)
+            fetch(`_essays/${essayName}.md`)
               .then(response => response.text())
               .then(text => {
                 const frontMatterMatch = text.match(/---([\\s\\S]*?)---/);
@@ -60,7 +60,7 @@
           essays.forEach(essay => {
             const listItem = document.createElement('li');
             const link = document.createElement('a');
-            link.href = `/post.html?name=${essay.name}`;
+            link.href = `post.html?name=${essay.name}`;
             link.textContent = essay.title;
             listItem.appendChild(link);
             essaysList.appendChild(listItem);

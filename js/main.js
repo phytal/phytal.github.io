@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const headerPlaceholder = document.querySelector('header');
   if (headerPlaceholder) {
-    fetch('/_includes/header.html')
+    fetch('_includes/header.html')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
