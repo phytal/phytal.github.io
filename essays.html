@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Essays - William Zhang</title>
+  <link rel="icon" href="/assets/Albanian_Eagle.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <header>
+    <!-- The header will be loaded here by js/main.js -->
+  </header>
+
+  <main>
+    <section class="essays">
+      <h2>Essays</h2>
+      <ul id="essays-list">
+        <!-- Essay list will be loaded here -->
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 William Zhang
+  </footer>
+  <script src="/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const essaysList = document.getElementById('essays-list');
+
+      fetch('/_essays/manifest.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(manifest => {
+          const fetchPromises = manifest.map(essayName =>
+            fetch(`/_essays/${essayName}.md`)
+              .then(response => response.text())
+              .then(text => {
+                const frontMatterMatch = text.match(/---([\\s\\S]*?)---/);
+                let title = essayName; // fallback title
+                if (frontMatterMatch) {
+                  const frontMatter = frontMatterMatch[1];
+                  const titleMatch = frontMatter.match(/title:\\s*(.*)/);
+                  if (titleMatch && titleMatch[1]) {
+                    title = titleMatch[1].trim();
+                  }
+                }
+                return { name: essayName, title: title };
+              })
+          );
+
+          return Promise.all(fetchPromises);
+        })
+        .then(essays => {
+          essays.forEach(essay => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = `/post.html?name=${essay.name}`;
+            link.textContent = essay.title;
+            listItem.appendChild(link);
+            essaysList.appendChild(listItem);
+          });
+          essaysList.insertAdjacentHTML('beforeend', '<!-- To add a new essay, update _essays/manifest.json -->');
+        })
+        .catch(error => {
+          console.error('Error loading essays:', error);
+          essaysList.innerHTML = '<li>Could not load essays.</li>';
+        });
+    });
+  </script>
+</body>
+</html> 

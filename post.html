@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post</title>
+  <link rel="icon" href="/assets/Albanian_Eagle.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/main.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+</head>
+<body>
+  <header>
+    <!-- The header will be loaded here by js/main.js -->
+  </header>
+
+  <main>
+    <article id="post-content">
+      <!-- Markdown content will be rendered here -->
+    </article>
+  </main>
+
+  <footer>
+    © 2025 William Zhang
+  </footer>
+  <script src="/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const postName = urlParams.get('name');
+      if (postName) {
+        fetch(`/_essays/${postName}.md`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(text => {
+            // Extract title from front-matter
+            const frontMatterMatch = text.match(/---([\s\S]*?)---/);
+            let content = text;
+            if (frontMatterMatch) {
+              const frontMatter = frontMatterMatch[1];
+              const titleMatch = frontMatter.match(/title:\s*(.*)/);
+              if (titleMatch && titleMatch[1]) {
+                document.title = titleMatch[1].trim() + " - William Zhang";
+              }
+              content = text.substring(frontMatterMatch[0].length).trim();
+            }
+
+            const converter = new showdown.Converter();
+            const html = converter.makeHtml(content);
+            const postContentElement = document.getElementById('post-content');
+            
+            const h2 = document.createElement('h2');
+            h2.textContent = document.title.split(' - ')[0];
+            postContentElement.appendChild(h2);
+            postContentElement.innerHTML += html;
+          })
+          .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            document.getElementById('post-content').innerHTML = '<p>Could not load the essay.</p>';
+          });
+      } else {
+        document.getElementById('post-content').innerHTML = '<p>No essay specified.</p>';
+      }
+    });
+  </script>
+</body>
+</html> 
