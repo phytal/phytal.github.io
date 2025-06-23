@@ -43,6 +43,11 @@ strong     { font-weight: 600; }
 ul { list-style: none; padding-left: 0; }
 li { margin-bottom: .75rem; }
 
+.summary-list li {
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
 /* 5. Footnote */
 footer {
   margin-top: 2em;

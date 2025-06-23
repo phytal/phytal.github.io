@@ -9,24 +9,90 @@
 </head>
 <body>
   <header>
-    <!-- The header will be loaded here by js/main.js -->
+    <h1>William Zhang</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="mailto:willzhang@utexas.edu">Contact</a>
+      <a href="https://x.com/phytalia" target="_blank" rel="noopener" aria-label="X / Twitter" style="vertical-align: middle; margin-left: 0.5em;">
+        <svg width="20" height="20" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;">
+          <path d="M 5.9199219 6 L 20.582031 27.375 L 6.2304688 44 L 9.4101562 44 L 21.986328 29.421875 L 31.986328 44 L 44 44 L 28.681641 21.669922 L 42.199219 6 L 39.029297 6 L 27.275391 19.617188 L 17.933594 6 L 5.9199219 6 z M 9.7167969 8 L 16.880859 8 L 40.203125 42 L 33.039062 42 L 9.7167969 8 z" fill="#FFFFFF"></path>
+        </svg>
+      </a>
+      <a href="https://linkedin.com/in/willzhxng" target="_blank" rel="noopener" aria-label="LinkedIn" style="vertical-align: middle; margin-left: 0.5em;">
+        <svg width="20" height="20" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;"><path d="M100.28 448H7.4V148.9h92.88zm-46.44-340.7C24.09 107.3 0 83.2 0 53.6A53.6 53.6 0 0 1 53.6 0a53.6 53.6 0 0 1 53.6 53.6c0 29.6-24.09 53.7-53.36 53.7zM447.8 448h-92.4V302.4c0-34.7-12.4-58.4-43.3-58.4-23.6 0-37.6 15.8-43.7 31.1-2.3 5.6-2.8 13.4-2.8 21.2V448h-92.4s1.2-242.1 0-267.1h92.4v37.9c12.3-19 34.3-46.1 83.5-46.1 60.9 0 106.7 39.8 106.7 125.4V448z" fill="#FFFFFF"></path></svg>
+      </a>
+    </nav>
   </header>
 
   <main>
-    <section class="intro">
-      <p>Currently building <strong><a href="https://nebulacloud.app" target="_blank" rel="noopener">Nebula</a></strong>, memory layer for self-improving AI agents. Previously built <strong><a href="https://fynopsis.ai" target="_blank" rel="noopener">Fynopsis</a></strong>, an AI-native diligence platform.</p>
-    </section>
+    <ul class="summary-list">
+      <li>Currently building <strong><a href="https://nebulacloud.app" target="_blank" rel="noopener">Nebula</a></strong>, a memory layer for self-improving AI agents. Previously built <strong><a href="https://fynopsis.ai" target="_blank" rel="noopener">Fynopsis</a></strong>, an AI-native diligence platform.</li>
+      <li>Computer Science Honors & Business Honors at <strong>The University of Texas at Austin</strong>.</li>
+      <li>Interned as a Software Development Engineer at <strong>Amazon</strong> and <strong>LPL Financial</strong>.</li>
+      <li>Weightlifter, runner, guitarist, and ceremonial matcha enthusiast.</li>
+    </ul>
 
-    <section class="about">
-      <h2>About Me</h2>
-      <p>This is the about page. Content coming soon.</p>
+    <section class="essays">
+      <h2>Essays</h2>
+      <ul id="essays-list">
+        <!-- Essay list will be loaded here -->
+      </ul>
     </section>
   </main>
 
   <footer>
     © 2025 William Zhang
   </footer>
-  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const essaysList = document.getElementById('essays-list');
+
+      if (essaysList) {
+        fetch('_essays/manifest.json')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(manifest => {
+            const fetchPromises = manifest.map(essayName =>
+              fetch(`_essays/${essayName}.md`)
+                .then(response => response.text())
+                .then(text => {
+                  const frontMatterMatch = text.match(/---([\\s\\S]*?)---/);
+                  let title = essayName; // fallback title
+                  if (frontMatterMatch) {
+                    const frontMatter = frontMatterMatch[1];
+                    const titleMatch = frontMatter.match(/title:\\s*(.*)/);
+                    if (titleMatch && titleMatch[1]) {
+                      title = titleMatch[1].trim();
+                    }
+                  }
+                  return { name: essayName, title: title };
+                })
+            );
+
+            return Promise.all(fetchPromises);
+          })
+          .then(essays => {
+            essays.forEach(essay => {
+              const listItem = document.createElement('li');
+              const link = document.createElement('a');
+              link.href = `post.html?name=${essay.name}`;
+              link.textContent = essay.title;
+              listItem.appendChild(link);
+              essaysList.appendChild(listItem);
+            });
+            essaysList.insertAdjacentHTML('beforeend', '<!-- To add a new essay, update _essays/manifest.json -->');
+          })
+          .catch(error => {
+            console.error('Error loading essays:', error);
+            essaysList.innerHTML = '<li>Could not load essays.</li>';
+          });
+      }
+    });
+  </script>
 </body>
 </html>
 
