@@ -44,6 +44,10 @@ header nav ul li {
   margin-bottom: 0;
 }
 
+.icon {
+  fill: #333;
+}
+
 /* 3. Links & emphasis */
 a          { color: inherit; text-decoration: underline; transition: opacity 0.2s ease-in-out; }
 a:hover    { opacity: 0.7; }
@@ -74,5 +78,6 @@ footer {
 @media (prefers-color-scheme: dark) {
   body        { color: #ddd; background: #111; }
   footer      { color: #888; }
+  .icon       { fill: #ddd; }
 }
 
