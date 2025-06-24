@@ -27,11 +27,11 @@ header h1 {
 nav a {
   margin-left: 1em;
   text-decoration: none;
-  color: #007bff;
+  transition: opacity 0.2s ease-in-out;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  opacity: 0.7;
 }
 
 header nav ul {
@@ -45,8 +45,8 @@ header nav ul li {
 }
 
 /* 3. Links & emphasis */
-a          { color: #0366d6; }
-a:hover    { text-decoration: underline; }
+a          { color: inherit; text-decoration: underline; transition: opacity 0.2s ease-in-out; }
+a:hover    { opacity: 0.7; }
 strong     { font-weight: 600; }
 
 /* 4. Lists */
@@ -73,9 +73,6 @@ footer {
 /* 6. Dark-mode tweak */
 @media (prefers-color-scheme: dark) {
   body        { color: #ddd; background: #111; }
-  nav a       { color: #aaa; }
-  nav a:hover { color: #fff; }
-  a           { color: #58a6ff; }
   footer      { color: #888; }
 }
 
