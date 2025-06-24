@@ -34,6 +34,16 @@ nav a:hover {
   text-decoration: underline;
 }
 
+header nav ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+header nav ul li {
+  margin-bottom: 0;
+}
+
 /* 3. Links & emphasis */
 a          { color: #0366d6; }
 a:hover    { text-decoration: underline; }
@@ -46,6 +56,10 @@ li { margin-bottom: .75rem; }
 .summary-list li {
   line-height: 1.5;
   margin-bottom: 1.25rem;
+}
+
+.essays {
+  margin-top: 4em;
 }
 
 /* 5. Footnote */
