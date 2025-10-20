@@ -1,6 +1,6 @@
 - currently building **[Nebula](https://trynebula.ai)**, a memory layer for self-improving ai agents
 - previously built **[Fynopsis](https://fynopsis.ai)**, an ai-native diligence platform for m&a
-- cs honors & business honors at **ut austin** (dropped out)
+- cs honors & business honors at **ut austin** (27', dropped out)
 - built enterprise RAG agents at **amazon**
 - **[Neo](https://neo.com/)** scholar finalist
 - weightlifter, runner, guitarist, and ceremonial matcha enthusiast

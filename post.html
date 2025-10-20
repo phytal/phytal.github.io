@@ -37,7 +37,7 @@
   </main>
 
   <footer>
-    © 2025 William Zhang
+    © 2025 William Zhang · Last updated: <span id="last-updated"></span>
   </footer>
   <script src="js/main.js"></script>
   <script>
@@ -73,6 +73,19 @@
             h2.textContent = document.title.split(' - ')[0];
             postContentElement.appendChild(h2);
             postContentElement.innerHTML += html;
+
+            // Get last modified date of the essay file
+            return fetch(`_essays/${postName}.md`, { method: 'HEAD' });
+          })
+          .then(response => {
+            const lastModified = response.headers.get('Last-Modified');
+            if (lastModified) {
+              const date = new Date(lastModified);
+              const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+              document.getElementById('last-updated').textContent = formatted;
+            } else {
+              document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            }
           })
           .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);

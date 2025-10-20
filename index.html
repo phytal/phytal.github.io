@@ -45,7 +45,7 @@
   </main>
 
   <footer>
-    © 2025 William Zhang
+    © 2025 William Zhang · Last updated: <span id="last-updated"></span>
   </footer>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -63,6 +63,20 @@
             const converter = new showdown.Converter();
             const html = converter.makeHtml(markdown);
             summaryContent.innerHTML = html;
+          })
+          .then(() => {
+            // Get last modified date of the content file
+            return fetch('_content/index.md', { method: 'HEAD' });
+          })
+          .then(response => {
+            const lastModified = response.headers.get('Last-Modified');
+            if (lastModified) {
+              const date = new Date(lastModified);
+              const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+              document.getElementById('last-updated').textContent = formatted;
+            } else {
+              document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            }
           })
           .catch(error => {
             console.error('Error loading summary content:', error);
