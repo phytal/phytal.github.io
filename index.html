@@ -6,6 +6,7 @@
   <title>William Zhang</title>
   <link rel="icon" href="assets/Albanian_Eagle.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/main.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 </head>
 <body>
   <header>
@@ -30,13 +31,10 @@
   </header>
 
   <main>
-    <ul class="summary-list">
-      <li>currently building <strong><a href="https://nebulacloud.app" target="_blank" rel="noopener">Nebula</a></strong>, a memory layer for self-improving ai agents.</li>
-      <li>previously built <strong><a href="https://fynopsis.ai" target="_blank" rel="noopener">Fynopsis</a></strong>, an ai-native diligence platform for m&a.</li>
-      <li>cs honors & business honors at <strong>ut austin</strong> (gapping rn).</li>
-      <li>interned at <strong>amazon</strong> and <strong>lpl financial</strong>.</li>
-      <li>weightlifter, runner, guitarist, and ceremonial matcha enthusiast.</li>
-    </ul>
+    <img src="assets/pfp.png" alt="William Zhang" class="profile-pic" />
+    <div id="summary-content" class="summary-list">
+      <!-- Summary content will be loaded here -->
+    </div>
 
     <section class="essays">
       <h2>Essays</h2>
@@ -51,6 +49,28 @@
   </footer>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Load summary content from markdown
+      const summaryContent = document.getElementById('summary-content');
+      if (summaryContent) {
+        fetch('_content/index.md')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(markdown => {
+            const converter = new showdown.Converter();
+            const html = converter.makeHtml(markdown);
+            summaryContent.innerHTML = html;
+          })
+          .catch(error => {
+            console.error('Error loading summary content:', error);
+            summaryContent.innerHTML = '<p>Could not load content.</p>';
+          });
+      }
+
+      // Load essays list
       const essaysList = document.getElementById('essays-list');
 
       if (essaysList) {
